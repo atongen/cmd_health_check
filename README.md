@@ -47,5 +47,11 @@ $ make release
 ## Command-Line Options
 
 ```
-something here
+λ sidekiq_health_check -h
+Usage of sidekiq_health_check:
+  -num int
+        Number of sidekiq processes needed to be health (default 8)
+  -port int
+        Port to listen on
+  -v    Print version information and exit
 ```
