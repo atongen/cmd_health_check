@@ -1,17 +1,31 @@
-# sidekiq_health_check
+# cmd_health_check
 
-Exposes an http endpoint that can be used to check for the number of sidekiq processes
-running on a server.
+Exposes an http endpoint that can be used to check the exit status of an
+arbitrary bash command.
+
+Generic version of [sidekiq_health_check](https://github.com/atongen/sidekiq_health_check).
+
+## Example
+
+Suppose you want to expose an http endpoint to check the status of a postgres database.
+In that case, you could run something like this:
+
+```
+$ export PGPASSWORD="h0tdoggi3!"
+$ cmd_health_check -verbose -cmd "/usr/bin/psql -q -c 'select 1' myDb health_check_user" -port 6480
+```
+
+Now `http://localhost:6480/ping` will respond with a 200 if the db is healthy, and a 500 otherwise.
 
 ## Install
 
-Download the [latest release](https://github.com/atongen/sidekiq_health_check/releases), extract it,
+Download the [latest release](https://github.com/atongen/cmd_health_check/releases), extract it,
 and put it somewhere on your PATH.
 
 or
 
 ```sh
-$ go get github.com/atongen/sidekiq_health_check
+$ go get github.com/atongen/cmd_health_check
 ```
 
 or
@@ -19,8 +33,8 @@ or
 ```sh
 $ mkdir -p $GOPATH/src/github.com/atongen
 $ cd $GOPATH/src/github.com/atongen
-$ git clone git@github.com:atongen/sidekiq_health_check.git
-$ cd sidekiq_health_check
+$ git clone git@github.com:atongen/cmd_health_check.git
+$ cd cmd_health_check
 $ go install
 $ rehash
 ```
@@ -30,7 +44,7 @@ $ rehash
 [wip]
 
 ```sh
-$ cd $GOPATH/src/github.com/atongen/sidekiq_health_check
+$ cd $GOPATH/src/github.com/atongen/cmd_health_check
 $ go test -cover
 ```
 
@@ -39,19 +53,22 @@ $ go test -cover
 ```sh
 $ mkdir -p $GOPATH/src/github.com/atongen
 $ cd $GOPATH/src/github.com/atongen
-$ git clone git@github.com:atongen/sidekiq_health_check.git
-$ cd sidekiq_health_check
+$ git clone git@github.com:atongen/cmd_health_check.git
+$ cd cmd_health_check
 $ make release
 ```
 
 ## Command-Line Options
 
 ```
-λ sidekiq_health_check -h
-Usage of sidekiq_health_check:
-  -num int
-        Number of sidekiq processes needed to be health (default 8)
+$ cmd_health_check -h
+Usage of cmd_health_check:
+  -cmd string
+        Health check bash command
   -port int
         Port to listen on
-  -v    Print version information and exit
+  -verbose
+        Print verbose output
+  -version
+        Print version information and exit
 ```

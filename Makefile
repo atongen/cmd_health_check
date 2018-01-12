@@ -1,4 +1,4 @@
-NAME=sidekiq_health_check
+NAME=cmd_health_check
 VERSION=$(shell cat version)
 BUILD_TIME=$(shell date -u +"%Y-%m-%d %T")
 BUILD_HASH=$(shell git rev-parse HEAD | cut -c 1-7 2>/dev/null || echo "")
